@@ -8,9 +8,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hw.DevNote.model.MemberVO;
 import com.hw.DevNote.persistence.MemberDAO;
 
 @Controller
@@ -20,16 +23,21 @@ public class ListController {
 	@Inject
 	private MemberDAO dao;
 	
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String getList(Locale locale, Model model) {
-		
-		model.addAttribute("methodNm", dao.get("bluejin"));
-		
-		return "list";
+	@ResponseBody
+	@RequestMapping(value = "/list/{memID}", method = RequestMethod.GET, produces = "application/json; charset=utf8")
+	public String getList(@PathVariable String memID) {
+		MemberVO vo = dao.get(memID);
+		System.out.println(vo);
+		return vo.toJsonString();
 	}
 	
 	@RequestMapping(value = "/list", method = RequestMethod.POST)
 	public String postList(Locale locale, Model model) {
+		
+		MemberVO vo = new MemberVO();
+		vo.setMemID("");
+		
+		dao.register(vo);
 		
 		model.addAttribute("methodNm", "POST");
 		

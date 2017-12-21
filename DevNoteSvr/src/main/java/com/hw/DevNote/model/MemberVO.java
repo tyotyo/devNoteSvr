@@ -1,5 +1,8 @@
 package com.hw.DevNote.model;
 
+import net.sf.json.JSONObject;
+import net.sf.json.JSONSerializer;
+
 public class MemberVO {
 	String memID;
 	String email;
@@ -36,6 +39,11 @@ public class MemberVO {
 	}
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
+	}
+	
+	public String toJsonString() {
+		JSONObject jsonData = JSONObject.fromObject(JSONSerializer.toJSON(this));
+		return jsonData.toString();
 	}
 	
 	@Override

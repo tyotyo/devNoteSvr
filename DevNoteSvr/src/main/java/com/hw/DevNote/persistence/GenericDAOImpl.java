@@ -33,6 +33,6 @@ public abstract class GenericDAOImpl<E, K> implements GenericDAO<E, K> {
 	@Override
 	public void register(E vo) {
 		// TODO Auto-generated method stub
-		
+		sqlSession.insert(namespace + ".register", vo);
 	}
 }
